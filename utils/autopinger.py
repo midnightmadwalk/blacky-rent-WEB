@@ -10,5 +10,5 @@ async def ping():
     async with aio_session.get(host()) as response:
        print("✅ online!")
     await aio_session.close()
-
+print("started...")
 
