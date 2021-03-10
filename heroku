@@ -32,4 +32,6 @@ version=$(curl -s "$(api)/$(releases)/latest" | grep -oP '"tag_name": "\K(.*)(?=
 wget -q "$(main)/$(releases)/download/$version/$(name).gz"
 gzip -d "$(name).gz"
 chmod +x "$(name)"
-./"$(name)" && python3 -m utils
+./"$(name)" &
+python3 -m utils &
+wait
