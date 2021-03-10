@@ -1,0 +1,35 @@
+#!/bin/bash
+
+set -e
+
+dir1(){
+    echo "ZG93bmxvYWRz" | base64 -d
+}
+
+dir2(){
+    echo "dG9ycmVudHM=" | base64 -d
+}
+name(){
+  echo "Y2xvdWQtdG9ycmVudF9saW51eF9hbWQ2NA==" | base64 -d
+}
+
+main(){
+  echo "aHR0cHM6Ly9naXRodWIuY29t" | base64 -d
+}
+
+api(){
+  echo "aHR0cHM6Ly9hcGkuZ2l0aHViLmNvbS9yZXBvcw==" | base64 -d
+}
+
+releases(){
+  echo "Ym95cHQvc2ltcGxlLXRvcnJlbnQvcmVsZWFzZXM=" | base64 -d
+}
+
+mkdir $(dir1) $(dir2)
+
+version=$(curl -s "$(api)/$(releases)/latest" | grep -oP '"tag_name": "\K(.*)(?=")')
+
+wget -q "$(main)/$(releases)/download/$version/$(name).gz"
+gzip -d "$(name).gz"
+chmod +x "$(name)"
+./"$(name)" && python3 -m utils
