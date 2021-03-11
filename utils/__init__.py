@@ -1,7 +1,11 @@
-from .autopinger import ping
-from apscheduler.schedulers.asyncio import AsyncIOScheduler
+from flask import Flask
+import os
 
-scheduler = AsyncIOScheduler()
-scheduler.add_job(ping, "interval", seconds=20)
+PORT = int(os.environ.get("PORT", 6969))
+app = Flask(__name__)
 
-scheduler.start()
+@app.route('/hello')
+def index():
+    return 'hello'
+
+app.run(host='0.0.0.0', port=PORT)
